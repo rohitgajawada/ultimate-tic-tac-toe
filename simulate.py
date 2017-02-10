@@ -1,3 +1,5 @@
+import game as *
+
 class Simulator:
     __init__(self, Agent1, Agent2):
         self.agent1 = Agent1;
