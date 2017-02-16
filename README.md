@@ -10,7 +10,7 @@ Branch factor is 16
 #defence
 in 3x3
 center stops 4
-corner stops 3 
+corner stops 3
 side stops 2
 
 in 4x4
@@ -21,7 +21,7 @@ sides stop 2
 #offence
 in 3x3
 center stops 4
-corner stops 3 
+corner stops 3
 side stops 2
 
 in 4x4
@@ -30,3 +30,8 @@ corners stop 3
 sides stop 2
 
 Cases:
+
+
+Notes: (3 x 3 x 3 x 3)
+
+Beginning: Center is the best tile to target.
