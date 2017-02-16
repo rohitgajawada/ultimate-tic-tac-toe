@@ -35,3 +35,9 @@ Cases:
 Notes: (3 x 3 x 3 x 3)
 
 Beginning: Center is the best tile to target.
+Force opponent on edge tiles for best effect.
+Corner at mini block is attacking the block itself but giving the opponent a corner block in next turn
+Edge at mini block is defending the block itself but giving opponent a relatively worse position in the next turn
+Dont let opponent gain a block (big) when possible unless it guarantees you winning one next
+Fix stalemates when no move gives a clear advantage
+
