@@ -1,19 +1,40 @@
-class minimax_agent():
+"""team39"""
+
+#possible combinations for winning:
+win_rows = [
+	#diagonals
+	((0, 0), (1, 1), (2, 2), (3, 3)),
+	((3, 0), (2, 1), (1, 2), (0, 3)),
+	#rows
+	((0, 0), (0, 1), (0, 2), (0, 3)),
+	((1, 0), (1, 1), (1, 2), (1, 3)),
+	((2, 0), (2, 1), (2, 2), (2, 3)),
+	((3, 0), (3, 1), (3, 2), (3, 3)),
+	#columns
+	((0, 0), (1, 0), (2, 0), (3, 0)),
+	((0, 1), (1, 1), (2, 1), (3, 1)),
+	((0, 2), (1, 2), (2, 2), (3, 2)),
+	((0, 3), (1, 3), (2, 3), (3, 3))
+]
+
+class Player39():
+"""Bot Class"""
 
 	def __init__(self):
-    	pass
+    	"Constructor"
+    	self.board = []
+		self.valid_moves = [];
+		self.flag = " "
+		self.moves = 0
+		self.good_endstate = False
 
-	def minimaxVal(game, maxdepth, evaluatorFunction = None):
-		if maxdepth == 0 or game.isLeafNode():
-			if evaluatorFunction:
-				return evaluatorFunction(game)
-			else:
-				return game.score()
-
-	def move(game, maxdepth, evaluatorFunction = None):
-
+	def move(self, board, old_move, flag):
+    
 		best = None
-		for move in game.find_valid_move_cells():
+		cells = board.find_valid_move_cells(old_move)
+
+		for move in cells:
+    			
 			temp = game.copy()
 			temp.play(move)
 			val = -1 * minimaxVal(temp, maxdepth, evaluatorFunction)
@@ -21,6 +42,13 @@ class minimax_agent():
 				best = (val, move)
 
 		return best
+
+	def minimaxVal(game, maxdepth, evaluatorFunction = None):
+		if maxdepth == 0 or game.isLeafNode():
+			if evaluatorFunction:
+				return evaluatorFunction(game)
+			else:
+				return game.score()
 
 	def alphabetaVal(game, maxdepth, alpha, beta, evaluatorFunction = None):
 		if maxdepth = 0 or game.isLeafNode():

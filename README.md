@@ -66,10 +66,25 @@ Cases:
 * don't focus on a block where your opponent wont send you too
 * if your opponent is trying to force you to a square that is already won, get those spaces occupied so that would prevent him from doing so
 
-Features
+Features extracted
 ========
 
 * number of blocks already won by player.
 * number of blocks already won by opponent.
 * number of blocks which player can win with one move in that block.
 * number of blocks which opponent can win with one move in that block.
+* block positions occupied beside of same type
+* block positions occupied beside of opp type
+* won blocks occupied beside of same type
+* won blocks occupied beside of opp type
+
+Variables
+========
+* number of rows that can almost be completed in terms of (4 - required no needed) and can be summed up if more that one row
+* number of rows won by taking that state
+
+* if that block is won and then correspond to above
+
+* entropy : O is majority (for offense) or X is majority (for defence i.e to mess up opponents offense) but not tending to equal 
+
+** Lets make our array as 1d for simplification
