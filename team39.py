@@ -216,16 +216,110 @@ class Player39():
             block_stat[block_num] = key
             return block_stat
 
-    	for i in range(hor, hor + 3):
-        	for j in range(ver, ver + 3):
+    	for i in range(hor, hor + 4):
+        	for j in range(ver, ver + 4):
             	if board[i][j] == '-':
                 	return block_stat
 
         block_stat[block_num] = 'D'
         return block_stat
 
-	def alphabeta():
+	def alphabeta(self, board, blocks_state, old_move, flag, levelincr):
+		if old_move == (-1, -1):
+            return (4, 4)
+
+		playable_cells = self.get_playable_cells(board, self.get_valid_blocks(old_move, blocks_state), blocks_state)
+
+		alpha = best_score = float('-inf')
+        beta = float('inf')
+		best_move = []
+
+		for move in playable_cells:
+            tempblockstate = blocks_state[:]
+
+			board[move[0]][move[1]] = flag
+            tempblockstate = self.evolvedblockstate(board, move, blocks_state, flag)
+            score = self.alpha_max(board, temp_blocks_st, move, flag, 0, alpha, beta, levelincr)
+
+			board[move[0]][move[1]] = '-'
+
+            if score == best_score:
+                best_move.append(move)
+            if score > best_score:
+                best_score = score
+                best_move = [move]
+
+            alpha = max(alpha, best_score)
+            if alpha >= beta:
+                break
+
+		return best_move[random.randrange(len(best_move))]
+
+	def alpha_max(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
+    	
+		if self.is_bad_terminal(blocks_state) is True:
+            return float('-inf')
+
+		if depth > 2 + levelincr:
+            return self.utility(flag, board, blocks_state, old_move)
+
+        playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
+
+		if not playable_cells:
+            return self.utility(flag, board, blocks_state, old_move)
+
+		best_score = float('-inf')
+		for move in playable_cells:
+            tempblockst = blocks_state[:]
+            board[move[0]][move[1]] = flag
+            temp_blocks_st = self.evolvedblockstate(board, move,temp_blocks_st, flag)
+            score = self.alpha_min(board, tempblockst, move, flag, depth + 1, alpha, beta, levelincr)
+
+            board[move[0]][move[1]] = '-'
+
+            if score > best_score:
+                best_score = score
+
+            alpha = max(alpha, best_score)
+            if alpha >= beta:
+                break
+
+			return best_score
+
+	def alpha_min(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
     		
+    	if self.is_good_terminal(blocks_state) is True:
+            return float('inf')
+
+        t_flag = 'o' if flag == 'x' else 'x'
+
+        if depth > 2 + levelincr:
+            return self.utility(flag, board, blocks_state, old_move)
+
+        playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
+
+        if not playable_cells:
+            return self.utility(flag, board, blocks_state, old_move)
+
+        best_score = float('inf')
+
+		for move in playable_cells:
+            temp_blocks_st = blocks_state[:]
+            board[move[0]][move[1]] = t_flag
+            temp_blocks_st = self.evolvedblockstate(board, move, temp_blocks_st, t_flag)
+			
+            score = self.alpha_max(board, temp_blocks_st, move, flag,depth + 1, alpha, beta, levelincr)
+
+            board[move[0]][move[1]] = '-'
+            if score < best_score:
+                best_score = score
+  
+            beta = min(beta, best_score)
+            if alpha >= beta:
+                break
+
+        return best_score
+
 	def utility():
 	
 
