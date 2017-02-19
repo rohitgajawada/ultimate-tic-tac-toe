@@ -3,7 +3,7 @@ import random
 import signal
 import time
 import copy
-import team39
+from team39 import Player39
 
 class TimedOutExc(Exception):
     pass
@@ -240,6 +240,7 @@ def gameplay(obj1, obj2):               #game simulator
             pts1 = 16
             break
         except Exception as e:
+            print e
             WINNER = 'P1'
             MESSAGE = 'INVALID MOVE'
             pts1 = 16
@@ -317,9 +318,8 @@ if __name__ == '__main__':
         obj1 = Manual_Player()
         obj2 = Manual_Player()
     elif option == '4':
-		obj1 = Random_Player()
-		obj2 = team39.Player39()
-		print "kya"
+        obj1 = Random_Player()
+        obj2 = Player39()
     else:
         print 'Invalid option'
         sys.exit(1)

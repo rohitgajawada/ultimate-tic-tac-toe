@@ -39,7 +39,6 @@ block_map = [
     [12, 12, 12, 13, 12, 14, 12, 15, 13, 12, 13, 13, 13, 14, 13, 15, 14, 12, 14, 13, 14, 14, 14, 15, 15, 12, 15, 13, 15, 14, 15, 15]
 ]
 
-
 class Player39():
     "AI Bot"
 
@@ -127,7 +126,7 @@ class Player39():
         self.flag = currflag
         self.moves += 1
 
-        bestmove = self.alphabeta(board, blocks_state, old_move, flag, self.levelincr)
+        bestmove = self.alphabeta(board, self.blocks_state, old_move, self.flag, self.levelincr)
 
         print "sup"
 
@@ -160,7 +159,7 @@ class Player39():
                 h = (block % 4) * 4
                 for i in range(v, v + 4):
                     for j in range(h, h + 4):
-                        if board[i][j] == '-':
+                        if self.board[i][j] == '-':
                             p_cells.append((i, j))
         return p_cells
 
