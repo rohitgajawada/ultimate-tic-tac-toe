@@ -163,7 +163,66 @@ class Player39():
         return p_cells
 
 	def evolvedblockstate(self, board, old_move, oldblockstate, currflag):
-    	
+    		
+		block_stat = oldblockstate[:]
+
+        if old_move == (-1, -1):
+            return block_stat
+
+    	blockx = int(old_move[0] / 4)
+		blocky = int(old_move[1] / 4)
+		currblock = block_map[blockx * 4 + blocky]
+
+		#rows
+		if board[currblock[0]][currblock[1]] == board[currblock[2]][currblock[3]] == board[currblock[4]][currblock[5]] == board[currblock[6]][currblock[7]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		if board[currblock[8]][currblock[9]] == board[currblock[10]][currblock[11]] == board[currblock[12]][currblock[13]] == board[currblock[14]][currblock[15]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		if board[currblock[16]][currblock[17]] == board[currblock[18]][currblock[19]] == board[currblock[20]][currblock[21]] == board[currblock[22]][currblock[23]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		if board[currblock[24]][currblock[25]] == board[currblock[26]][currblock[27]] == board[currblock[28]][currblock[29]] == board[currblock[30]][currblock[31]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		#columns
+        if board[currblock[0]][currblock[1]] == board[currblock[8]][currblock[9]] == board[currblock[16]][currblock[17]] == board[currblock[24]][currblock[25]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		if board[currblock[2]][currblock[3]] == board[currblock[10]][currblock[11]] == board[currblock[18]][currblock[19]] == board[currblock[26]][currblock[27]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		if board[currblock[4]][currblock[5]] == board[currblock[12]][currblock[13]] == board[currblock[20]][currblock[21]] == board[currblock[28]][currblock[29]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+		if board[currblock[6]][currblock[7]] == board[currblock[14]][currblock[15]] == board[currblock[22]][currblock[23]] == board[currblock[30]][currblock[31]] == key:
+            block_stat[block_num] = key
+            return block_stat
+	
+		#diagonals
+        if board[currblock[0]][currblock[1]] == board[currblock[10]][currblock[11]] == board[currblock[20]][currblock[21]] == board[currblock[30]][currblock[31]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+        if board[currblock[6]][currblock[7]] == board[currblock[12]][currblock[13]] == board[currblock[18]][currblock[19]] == board[currblock[24]][currblock[25]] == key:
+            block_stat[block_num] = key
+            return block_stat
+
+    	for i in range(hor, hor + 3):
+        	for j in range(ver, ver + 3):
+            	if board[i][j] == '-':
+                	return block_stat
+
+        block_stat[block_num] = 'D'
+        return block_stat
 
 	def alphabeta():
     		
