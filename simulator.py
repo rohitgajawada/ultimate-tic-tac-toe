@@ -317,8 +317,9 @@ if __name__ == '__main__':
         obj1 = Manual_Player()
         obj2 = Manual_Player()
     elif option == '4':
-        obj1 = Random_Player()
-        obj2 = team39.Player39()
+		obj1 = Random_Player()
+		obj2 = team39.Player39()
+		print "kya"
     else:
         print 'Invalid option'
         sys.exit(1)

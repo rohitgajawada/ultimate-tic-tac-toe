@@ -127,7 +127,9 @@ class Player39():
         self.flag = currflag
         self.moves += 1
 
-        bestmove = self.alphabeta(board, blocks_state, old_move, flag, self.ply)
+        bestmove = self.alphabeta(board, blocks_state, old_move, flag, self.levelincr)
+
+        print "sup"
 
         return bestmove
 
@@ -228,7 +230,10 @@ class Player39():
         if old_move == (-1, -1):
             return (4, 4)
 
-        playable_cells = self.get_playable_cells(board, self.get_valid_blocks(old_move, blocks_state), blocks_state)
+        playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
+
+        print "hello"
+        print playable_cells
 
         alpha = best_score = float('-inf')
         beta = float('inf')
