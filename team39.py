@@ -359,6 +359,7 @@ class Player39():
 
     def feature_extractor(self, board, blocks_state, flag):
         cornerblockswon = sideblockswon = centerblockswon = cornerslost = sideslost = centerblockslost = 0
+        totalwon = totallost = 0
 
         if flag == 'o':
             counterflag = 'x'
@@ -384,3 +385,8 @@ class Player39():
                 elif blocks_state[i] == counterflag:
                     cornerslost += 1
 
+            """Entropy"""
+            if blocks_state[i] == flag:
+                totalwon += 1
+            elif blocks_state[i] == counterflag:
+                totallost += 1
