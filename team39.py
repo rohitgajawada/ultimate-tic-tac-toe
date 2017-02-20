@@ -357,7 +357,7 @@ class Player39():
         feature_extractor(board, blocks_state, flag)
         return 1
 
-    def feature_extractor(self, board, blocks_state):
+    def feature_extractor(self, board, blocks_state, flag):
         cornerblockswon = sideblockswon = centerblockswon = cornerslost = sideslost = centerblockslost = 0
 
         if flag == 'o':
