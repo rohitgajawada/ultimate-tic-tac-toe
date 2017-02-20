@@ -1,4 +1,6 @@
 """team39"""
+import copy
+import random
 
 # possible combinations for winning:
 win_rows = [
@@ -40,7 +42,7 @@ block_map = [
 ]
 
 class Player39():
-    "AI Bot"
+    """AI Bot"""
 
     def __init__(self):
         "Constructor"
@@ -122,23 +124,27 @@ class Player39():
 
     def move(self, board, old_move, currflag):
 
-        self.board = board
+        print "In move func"
+        self.board = copy.deepcopy(board.board_status)
         self.flag = currflag
         self.moves += 1
 
-        bestmove = self.alphabeta(board, self.blocks_state, old_move, self.flag, self.levelincr)
+        #print "before"
+        bestmove = self.alphabeta(self.board, self.blocks_state, old_move, self.flag, self.levelincr)
 
-        print "sup"
+        print "done"
+        print bestmove
 
         return bestmove
 
     def blocks_allowed(self, old_move, blocks_state):
 
+        # print "inside 1"
         if old_move[0] == (-1, -1):
             return [x for x in xrange(16)]
         else:
-            r = int(old_move[0] / 4)
-            c = int(old_move[1] / 4)
+            r = int(old_move[0] % 4)
+            c = int(old_move[1] % 4)
             possblock = r * 4 + c
 
             if blocks_state[possblock] != ' ':
@@ -154,13 +160,20 @@ class Player39():
     def cells_allowed(self, tempboard, blocks_allowed, blockstatus):
 
         p_cells = []
+        # print "mprint"
         for block in blocks_allowed:
                 v = (int(block / 4)) * 4
                 h = (block % 4) * 4
+                # print v, h
                 for i in range(v, v + 4):
+                    # print v
                     for j in range(h, h + 4):
-                        if self.board[i][j] == '-':
+
+                        if tempboard[i][j] == '-':
                             p_cells.append((i, j))
+
+        # print "printing"
+        # print p_cells
         return p_cells
 
     def evolvedblockstate(self, board, old_move, oldblockstate, currflag):
@@ -172,53 +185,54 @@ class Player39():
 
         blockx = int(old_move[0] / 4)
         blocky = int(old_move[1] / 4)
+        block_num = blockx * 4 + blocky
         currblock = block_map[blockx * 4 + blocky]
 
         #rows
-        if board[currblock[0]][currblock[1]] == board[currblock[2]][currblock[3]] == board[currblock[4]][currblock[5]] == board[currblock[6]][currblock[7]] == key:
-            block_stat[block_num] = key
+        if board[currblock[0]][currblock[1]] == board[currblock[2]][currblock[3]] == board[currblock[4]][currblock[5]] == board[currblock[6]][currblock[7]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[8]][currblock[9]] == board[currblock[10]][currblock[11]] == board[currblock[12]][currblock[13]] == board[currblock[14]][currblock[15]] == key:
-            block_stat[block_num] = key
+        if board[currblock[8]][currblock[9]] == board[currblock[10]][currblock[11]] == board[currblock[12]][currblock[13]] == board[currblock[14]][currblock[15]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[16]][currblock[17]] == board[currblock[18]][currblock[19]] == board[currblock[20]][currblock[21]] == board[currblock[22]][currblock[23]] == key:
-            block_stat[block_num] = key
+        if board[currblock[16]][currblock[17]] == board[currblock[18]][currblock[19]] == board[currblock[20]][currblock[21]] == board[currblock[22]][currblock[23]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[24]][currblock[25]] == board[currblock[26]][currblock[27]] == board[currblock[28]][currblock[29]] == board[currblock[30]][currblock[31]] == key:
-            block_stat[block_num] = key
+        if board[currblock[24]][currblock[25]] == board[currblock[26]][currblock[27]] == board[currblock[28]][currblock[29]] == board[currblock[30]][currblock[31]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
         #columns
-        if board[currblock[0]][currblock[1]] == board[currblock[8]][currblock[9]] == board[currblock[16]][currblock[17]] == board[currblock[24]][currblock[25]] == key:
-            block_stat[block_num] = key
+        if board[currblock[0]][currblock[1]] == board[currblock[8]][currblock[9]] == board[currblock[16]][currblock[17]] == board[currblock[24]][currblock[25]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[2]][currblock[3]] == board[currblock[10]][currblock[11]] == board[currblock[18]][currblock[19]] == board[currblock[26]][currblock[27]] == key:
-            block_stat[block_num] = key
+        if board[currblock[2]][currblock[3]] == board[currblock[10]][currblock[11]] == board[currblock[18]][currblock[19]] == board[currblock[26]][currblock[27]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[4]][currblock[5]] == board[currblock[12]][currblock[13]] == board[currblock[20]][currblock[21]] == board[currblock[28]][currblock[29]] == key:
-            block_stat[block_num] = key
+        if board[currblock[4]][currblock[5]] == board[currblock[12]][currblock[13]] == board[currblock[20]][currblock[21]] == board[currblock[28]][currblock[29]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[6]][currblock[7]] == board[currblock[14]][currblock[15]] == board[currblock[22]][currblock[23]] == board[currblock[30]][currblock[31]] == key:
-            block_stat[block_num] = key
+        if board[currblock[6]][currblock[7]] == board[currblock[14]][currblock[15]] == board[currblock[22]][currblock[23]] == board[currblock[30]][currblock[31]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
         #diagonals
-        if board[currblock[0]][currblock[1]] == board[currblock[10]][currblock[11]] == board[currblock[20]][currblock[21]] == board[currblock[30]][currblock[31]] == key:
-            block_stat[block_num] = key
+        if board[currblock[0]][currblock[1]] == board[currblock[10]][currblock[11]] == board[currblock[20]][currblock[21]] == board[currblock[30]][currblock[31]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        if board[currblock[6]][currblock[7]] == board[currblock[12]][currblock[13]] == board[currblock[18]][currblock[19]] == board[currblock[24]][currblock[25]] == key:
-            block_stat[block_num] = key
+        if board[currblock[6]][currblock[7]] == board[currblock[12]][currblock[13]] == board[currblock[18]][currblock[19]] == board[currblock[24]][currblock[25]] == currflag:
+            block_stat[block_num] = currflag
             return block_stat
 
-        for i in range(hor, hor + 4):
-            for j in range(ver, ver + 4):
+        for i in range(blockx, blockx + 4):
+            for j in range(blocky, blocky + 4):
                 if board[i][j] == '-':
                     return block_stat
 
@@ -226,13 +240,15 @@ class Player39():
         return block_stat
 
     def alphabeta(self, board, blocks_state, old_move, flag, levelincr):
+
+        #print "inside alphabeta"
         if old_move == (-1, -1):
             return (4, 4)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
-        print "hello"
-        print playable_cells
+        # print "hello"
+        #print playable_cells
 
         alpha = best_score = float('-inf')
         beta = float('inf')
@@ -243,7 +259,7 @@ class Player39():
 
             board[move[0]][move[1]] = flag
             tempblockstate = self.evolvedblockstate(board, move, blocks_state, flag)
-            score = self.alpha_max(board, temp_blocks_st, move, flag, 0, alpha, beta, levelincr)
+            score = self.alpha_max(board, tempblockstate, move, flag, 0, alpha, beta, levelincr)
 
             board[move[0]][move[1]] = '-'
 
@@ -265,19 +281,20 @@ class Player39():
             return float('-inf')
 
         if depth > 2 + levelincr:
-            return self.utility(flag, board, blocks_state, old_move)
+            return self.temp()
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            return self.utility(flag, board, blocks_state, old_move)
+            return self.temp()
 
         best_score = float('-inf')
         for move in playable_cells:
             tempblockst = blocks_state[:]
             board[move[0]][move[1]] = flag
-            temp_blocks_st = self.evolvedblockstate(board, move,temp_blocks_st, flag)
+            tempblockst = self.evolvedblockstate(board, move,tempblockst, flag)
             score = self.alpha_min(board, tempblockst, move, flag, depth + 1, alpha, beta, levelincr)
+
 
             board[move[0]][move[1]] = '-'
 
@@ -298,12 +315,14 @@ class Player39():
         t_flag = 'o' if flag == 'x' else 'x'
 
         if depth > 2 + levelincr:
-            return self.utility(flag, board, blocks_state, old_move)
+
+            varutil = self.temp()
+            return varutil
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            return self.utility(flag, board, blocks_state, old_move)
+            return self.temp()
 
         best_score = float('inf')
 
@@ -324,5 +343,8 @@ class Player39():
 
         return best_score
 
-    def utility():
+    def utility(self):
+        return 1
+
+    def temp(self):
         return 1
