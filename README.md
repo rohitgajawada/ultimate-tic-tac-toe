@@ -81,6 +81,7 @@ Features extracted
 Variables
 ========
 * number of rows that can almost be completed in terms of (4 - required no needed) and can be summed up if more that one row
+
 * number of rows won by taking that state
 
 * if that block is won and then correspond to above

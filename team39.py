@@ -255,7 +255,7 @@ class Player39():
         best_move = []
 
         if not playable_cells:
-            return self.temp()
+            return self.temp(board, blocks_state, flag)
 
         for move in playable_cells:
             tempblockstate = blocks_state[:]
@@ -285,12 +285,12 @@ class Player39():
             return float('-inf')
 
         if depth > 4 + levelincr:
-            return self.temp()
+            return self.temp(board, blocks_state, flag)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            return self.temp()
+            return self.temp(board, blocks_state, flag)
 
         best_score = float('-inf')
         for move in playable_cells:
@@ -323,12 +323,12 @@ class Player39():
         t_flag = 'o' if flag == 'x' else 'x'
 
         if depth > 4 + levelincr:
-            return self.temp()
+            return self.temp(board, blocks_state, flag)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            return self.temp()
+            return self.temp(board, blocks_state, flag)
 
         best_score = float('inf')
 
@@ -353,5 +353,34 @@ class Player39():
 
         return best_score
 
-    def temp(self):
+    def temp(self, board, blocks_state, flag):
+        feature_extractor(board, blocks_state, flag)
         return 1
+
+    def feature_extractor(self, board, blocks_state):
+        cornerblockswon = sideblockswon = centerblockswon = cornerslost = sideslost = centerblockslost = 0
+
+        if flag == 'o':
+            counterflag = 'x'
+        elif flag == 'x':
+            counterflag = 'o'
+
+        for i in xrange(16):
+            if i == 0 or i == 3 or i == 12 or i == 15:
+                if blocks_state[i] == flag:
+                    cornerblockswon += 1
+                elif blocks_state[i] == counterflag:
+                    cornerslost += 1
+
+            if i == 1 or i == 2 or i == 4 or i == 8 or i == 13 or i == 14 or i == 7 or i == 11:
+                if blocks_state[i] == flag:
+                    sideblockswon += 1
+                elif blocks_state[i] == counterflag:
+                    sideslost += 1
+
+            if i == 5 or i == 6 or i == 9 or i == 10:
+                if blocks_state[i] == flag:
+                    centerblockswon += 1
+                elif blocks_state[i] == counterflag:
+                    cornerslost += 1
+
