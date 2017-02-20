@@ -233,6 +233,7 @@ def gameplay(obj1, obj2):				#game simulator
 		signal.alarm(TIME)
 
 		try:
+			print game_board.block_status , "block status"
 			p2_move = obj2.move(game_board, old_move, fl2)
 		except TimedOutExc:
 			WINNER = 'P1'
