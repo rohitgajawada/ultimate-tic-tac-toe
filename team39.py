@@ -361,6 +361,7 @@ class Player39():
         cornerblockswon = sideblockswon = centerblockswon = cornerslost = sideslost = centerblockslost = 0
         totalwon = totallost = 0
 
+        """Number of corners, sides and center blocks"""
         if flag == 'o':
             counterflag = 'x'
         elif flag == 'x':
@@ -390,3 +391,45 @@ class Player39():
                 totalwon += 1
             elif blocks_state[i] == counterflag:
                 totallost += 1
+
+        """Victory distance"""
+        count = 0
+        inrow = incolumn = indiagonalleft = indiagonalright = 0
+        for i in xrange(16):
+            if blocks_state[i] == flag:
+                for j in [int(i / 4) * 4, int(i / 4) * 4 + 1, int(i / 4) * 4 + 2, int(i / 4) * 4 + 3]:
+                    if blocks_state[j] == flag:
+                        count += 1
+                count -= 1
+                inrow = count
+                count = 0
+                for j in [i % 4, i % 4 + 4, i % 4 + 8, i % 4 + 12]:
+                    if blocks_state[j] == flag:
+                        count += 1
+                count -= 1
+                incolumn = count
+                count = 0
+                if i in [5, 10]:
+                    for j in [0, 5, 10, 15]:
+                        if blocks_state[j] == flag:
+                            count += 1
+                    count -= 1
+                    indiagonalleft = count
+                    count = 0
+                if i in [6, 9]:
+                    for j in [3, 6, 9, 12]:
+                        if blocks_state[j] == flag:
+                            count += 1
+                    count -= 1
+                    indiagonalright = count
+                    count = 0
+
+
+
+
+
+
+
+
+
+
