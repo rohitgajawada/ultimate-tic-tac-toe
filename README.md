@@ -85,6 +85,6 @@ Variables
 
 * if that block is won and then correspond to above
 
-* entropy : O is majority (for offense) or X is majority (for defence i.e to mess up opponents offense) but not tending to equal 
+* entropy : O is majority (for offense) or X is majority (for defence i.e to mess up opponents offense) but not tending to equal
 
-** Lets make our array as 1d for simplification
+* Lets make our array as 1d for simplification
