@@ -1,6 +1,7 @@
 """team39"""
 import copy
 import random
+import time
 
 # possible combinations for winning:
 win_rows = [
@@ -61,6 +62,7 @@ class Player39():
     def move(self, board, old_move, currflag):
 
         # print "In move func"
+        total_start = time.time()
         self.board = copy.deepcopy(board.board_status)
         tempblockstatus = copy.deepcopy(board.block_status)
 
@@ -77,6 +79,9 @@ class Player39():
 
         # print "done"
         # print bestmove, "bestmove"
+
+        total_end = time.time()
+        print "total move time: ", total_end - total_start
 
         return bestmove
 
@@ -296,10 +301,11 @@ class Player39():
 
         # print "in alphamax"
 
+        alphamaxstart = time.time()
         if self.is_bad_terminal(blocks_state) is True:
             return float('-inf')
 
-        if depth > 2 + levelincr:
+        if depth > 5 + levelincr:
             return self.temp()
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
@@ -326,17 +332,23 @@ class Player39():
             if alpha >= beta:
                 break
 
+        alphamaxend = time.time()
+
+        print "alphamax time:", alphamaxend - alphamaxstart
+
         return best_score
 
     def alpha_min(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
         # print "in alphamin"
+
+        alphaminstart = time.time()
         if self.is_good_terminal(blocks_state) is True:
             # print "goodtermcheck"
             return float('inf')
 
         t_flag = 'o' if flag == 'x' else 'x'
 
-        if depth > 2 + levelincr:
+        if depth > 5 + levelincr:
             # print "depthcheck"
             return self.temp()
 
@@ -364,6 +376,10 @@ class Player39():
             beta = min(beta, best_score)
             if alpha >= beta:
                 break
+
+        alphaminend = time.time()
+
+        print "alphamin time:", alphaminend - alphaminstart
 
         return best_score
 
