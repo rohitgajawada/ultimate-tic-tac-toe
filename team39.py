@@ -61,7 +61,6 @@ class Player39():
 
     def move(self, board, old_move, currflag):
 
-        # print "In move func"
         total_start = time.time()
         self.board = copy.deepcopy(board.board_status)
         tempblockstatus = copy.deepcopy(board.block_status)
@@ -73,12 +72,7 @@ class Player39():
         self.flag = currflag
         self.moves += 1
 
-        # print old_move, "old_move"
-        #print "before"
         bestmove = self.alphabeta(self.board, self.blocks_state, old_move, self.flag, self.levelincr)
-
-        # print "done"
-        # print bestmove, "bestmove"
 
         total_end = time.time()
         print "total move time: ", total_end - total_start
@@ -151,7 +145,6 @@ class Player39():
 
     def blocks_allowed(self, old_move, blocks_state):
 
-        # print "inside 1"
         r = int(old_move[0] % 4)
         c = int(old_move[1] % 4)
         blocknum = r*4 + c;
@@ -168,7 +161,6 @@ class Player39():
                 for i in xrange(16):
                     if blocks_state[i] == '-':
                         possblocks.append(i)
-                # print possblocks, "blocks allowed"
                 return possblocks
 
             else:
@@ -177,20 +169,15 @@ class Player39():
     def cells_allowed(self, tempboard, blocks_allowed, blockstatus):
 
         p_cells = []
-        # print "mprint"
         for block in blocks_allowed:
                 v = (int(block / 4)) * 4
                 h = (block % 4) * 4
-                # print v, h
                 for i in range(v, v + 4):
-                    # print v
                     for j in range(h, h + 4):
 
                         if tempboard[i][j] == '-':
                             p_cells.append((i, j))
 
-        # print "printing"
-        # print p_cells, "playable cells"
         return p_cells
 
     def evolvedblockstate(self, board, old_move, oldblockstate, currflag):
@@ -258,14 +245,10 @@ class Player39():
 
     def alphabeta(self, board, blocks_state, old_move, flag, levelincr):
 
-        #print "inside alphabeta"
         if old_move == (-1, -1):
             return (4, 4)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
-
-        # print "hello"
-        #print playable_cells
 
         alpha = best_score = score = float('-inf')
         beta = float('inf')
@@ -283,8 +266,6 @@ class Player39():
 
             board[move[0]][move[1]] = '-'
 
-            # print "score: ", score, "best_score: ", best_score
-
             if score == best_score:
                 best_move.append(move)
             if score > best_score:
@@ -299,13 +280,11 @@ class Player39():
 
     def alpha_max(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
 
-        # print "in alphamax"
-
         alphamaxstart = time.time()
         if self.is_bad_terminal(blocks_state) is True:
             return float('-inf')
 
-        if depth > 5 + levelincr:
+        if depth > 4 + levelincr:
             return self.temp()
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
@@ -320,13 +299,10 @@ class Player39():
             tempblockst = self.evolvedblockstate(board, move,tempblockst, flag)
             score = self.alpha_min(board, tempblockst, move, flag, depth + 1, alpha, beta, levelincr)
 
-
             board[move[0]][move[1]] = '-'
 
             if score > best_score:
                 best_score = score
-
-            # print "al max score: ", score, "best_score: ", best_score
 
             alpha = max(alpha, best_score)
             if alpha >= beta:
@@ -339,23 +315,19 @@ class Player39():
         return best_score
 
     def alpha_min(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
-        # print "in alphamin"
 
         alphaminstart = time.time()
         if self.is_good_terminal(blocks_state) is True:
-            # print "goodtermcheck"
             return float('inf')
 
         t_flag = 'o' if flag == 'x' else 'x'
 
-        if depth > 5 + levelincr:
-            # print "depthcheck"
+        if depth > 4 + levelincr:
             return self.temp()
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            # print "emptycheck"
             return self.temp()
 
         best_score = float('inf')
@@ -370,8 +342,6 @@ class Player39():
             board[move[0]][move[1]] = '-'
             if score < best_score:
                 best_score = score
-
-            # print "be min score: ", score, "best_score: ", best_score
 
             beta = min(beta, best_score)
             if alpha >= beta:
