@@ -494,3 +494,67 @@ class Player39():
             c = old_move[1] % 4
             if blocks_state[r * c + 4] == flag or blocks_state[r * c + 4] == counterflag:
                 # do something like return very low value
+
+            """cell statistics"""
+            blocknow = r * c + 4
+            rowcorner = int(blocknow / 4) * 4
+            columncorner = blocknum % 4 * 4
+
+            cellwin = celllost = 0
+
+            for i in xrange(4):
+                for j in xrange(4):
+                    if board[rowcorner + i][columncorner + j] == flag:
+                        cellwin += 1
+                    elif board[rowcorner + i][columncorner + j] == counterflag:
+                        celllost += 1
+
+                    """entropy of block"""
+                    entropycell = (2 * cellwin + 16 - (cellwin + celllost)) / (2 * cellwin + 2 * celllost + 16 - (cellwin + celllost))
+
+            cellrowwin = cellrowlost = cellcolumnwin = cellcolumnlost = celldiagleftwon = celldiagleftlost = celldiagrightwon = celldiagrightlost = []
+            count = countlost = 0
+
+            for i in xrange(4):
+                if board[rowcorner + i][columncorner] == flag:
+                    count += 1
+                if board[rowcorner + i][columncorner] == counterflag:
+                    countlost += 1
+                cellrowwin.append(count)
+                cellrowlost.append(countlost)
+                count = 0
+                countlost = 0
+
+            for j in xrange(4):
+                if board[rowcorner][columncorner + j] == flag:
+                    count += 1
+                if board[rowcorner][columncorner + j] == counterflag:
+                    countlost += 1
+                cellcolumnwin.append(count)
+                cellcolumnlost.append(countlost)
+                count = 0
+                countlost = 0
+
+            for i in xrange(4):
+                if board[rowcorner + i][columncorner + i] == flag:
+                    count += 1
+                if board[rowcorner + i][columncorner + i] == counterflag:
+                    countlost += 1
+                celldiagleftwon.append(count)
+                celldiagleftlost.append(countlost)
+                count = 0
+                countlost = 0
+
+            for i in xrange(4):
+                if board[rowcorner - i][columncorner + i] == flag:
+                    count += 1
+                if board[rowcorner - i][columncorner + i] == counterflag:
+                    countlost += 1
+                celldiagrightwon.append(count)
+                celldiagrightlost.append(countlost)
+                count = 0
+                countlost = 0
+
+
+
+
