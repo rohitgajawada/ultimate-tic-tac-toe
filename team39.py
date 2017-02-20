@@ -395,43 +395,96 @@ class Player39():
         entropy = (2 * totalwon + 16 - (totalwon + totallost)) / (2 * totalwon + 2 * totallost + 16 - (totallost + totalwon))
 
         """Victory distance"""
-        count = 0
-        inrow = incolumn = indiagonalleft = indiagonalright = 0
+        rowwon = rowlost = columnwon = columnlost = diagleftwon = diagleftlost = diagrightwon = diagrightlost = []
+        count = countlost = 0
         for i in xrange(16):
-            if blocks_state[i] == flag:
-                for j in [int(i / 4) * 4, int(i / 4) * 4 + 1, int(i / 4) * 4 + 2, int(i / 4) * 4 + 3]:
-                    if blocks_state[j] == flag:
-                        count += 1
-                count -= 1
-                inrow = count
-                count = 0
-                for j in [i % 4, i % 4 + 4, i % 4 + 8, i % 4 + 12]:
-                    if blocks_state[j] == flag:
-                        count += 1
-                count -= 1
-                incolumn = count
-                count = 0
-                if i in [5, 10]:
-                    for j in [0, 5, 10, 15]:
-                        if blocks_state[j] == flag:
-                            count += 1
-                    count -= 1
-                    indiagonalleft = count
-                    count = 0
-                if i in [6, 9]:
-                    for j in [3, 6, 9, 12]:
-                        if blocks_state[j] == flag:
-                            count += 1
-                    count -= 1
-                    indiagonalright = count
-                    count = 0
-
-
-
-
-
-
-
-
-
-
+            if i in [0, 1, 2, 3]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            rowwon.append(count)
+            rowlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [4, 5, 6, 7]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            rowwon.append(count)
+            rowlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [8, 9, 10, 11]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            rowwon.append(count)
+            rowlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [12, 13, 14, 15]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            rowwon.append(count)
+            rowlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [0, 4, 8, 12]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            columnwon.append(count)
+            columnlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [1, 5, 9, 13]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            columnwon.append(count)
+            columnlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [2, 6, 10, 14]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            columnwon.append(count)
+            columnlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [3, 7, 11, 15]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            columnwon.append(count)
+            columnlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [0, 5, 10, 15]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            diagleftwon.append(count)
+            diagleftlost.append(countlost)
+            count = 0
+            countlost = 0
+            if i in [3, 6, 9, 12]:
+                if blocks_state[i] == flag:
+                    count += 1
+                if blocks_state[i] == counterflag:
+                    countlost += 1
+            diagrightwon.append(count)
+            diagrightlost.append(countlost)
+            count = 0
+            countlost = 0
