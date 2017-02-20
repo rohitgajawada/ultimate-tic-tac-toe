@@ -60,7 +60,7 @@ class Player39():
 
     def move(self, board, old_move, currflag):
 
-        print "In move func"
+        # print "In move func"
         self.board = copy.deepcopy(board.board_status)
         tempblockstatus = copy.deepcopy(board.block_status)
 
@@ -71,12 +71,12 @@ class Player39():
         self.flag = currflag
         self.moves += 1
 
-        print old_move, "old_move"
+        # print old_move, "old_move"
         #print "before"
         bestmove = self.alphabeta(self.board, self.blocks_state, old_move, self.flag, self.levelincr)
 
-        print "done"
-        print bestmove, "bestmove"
+        # print "done"
+        # print bestmove, "bestmove"
 
         return bestmove
 
@@ -163,7 +163,7 @@ class Player39():
                 for i in xrange(16):
                     if blocks_state[i] == '-':
                         possblocks.append(i)
-                print possblocks, "blocks allowed"
+                # print possblocks, "blocks allowed"
                 return possblocks
 
             else:
@@ -185,7 +185,7 @@ class Player39():
                             p_cells.append((i, j))
 
         # print "printing"
-        print p_cells, "playable cells"
+        # print p_cells, "playable cells"
         return p_cells
 
     def evolvedblockstate(self, board, old_move, oldblockstate, currflag):
@@ -278,7 +278,7 @@ class Player39():
 
             board[move[0]][move[1]] = '-'
 
-            print "score: ", score, "best_score: ", best_score
+            # print "score: ", score, "best_score: ", best_score
 
             if score == best_score:
                 best_move.append(move)
@@ -294,7 +294,7 @@ class Player39():
 
     def alpha_max(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
 
-        print "in alphamax"
+        # print "in alphamax"
 
         if self.is_bad_terminal(blocks_state) is True:
             return float('-inf')
@@ -320,25 +320,30 @@ class Player39():
             if score > best_score:
                 best_score = score
 
+            # print "al max score: ", score, "best_score: ", best_score
+
             alpha = max(alpha, best_score)
             if alpha >= beta:
                 break
 
-            return best_score
+        return best_score
 
     def alpha_min(self, board, blocks_state, old_move, flag, depth, alpha, beta, levelincr):
-        print "in alphamin"
+        # print "in alphamin"
         if self.is_good_terminal(blocks_state) is True:
+            # print "goodtermcheck"
             return float('inf')
 
         t_flag = 'o' if flag == 'x' else 'x'
 
         if depth > 2 + levelincr:
+            # print "depthcheck"
             return self.temp()
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
+            # print "emptycheck"
             return self.temp()
 
         best_score = float('inf')
@@ -353,6 +358,8 @@ class Player39():
             board[move[0]][move[1]] = '-'
             if score < best_score:
                 best_score = score
+
+            # print "be min score: ", score, "best_score: ", best_score
 
             beta = min(beta, best_score)
             if alpha >= beta:
