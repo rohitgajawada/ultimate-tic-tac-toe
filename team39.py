@@ -57,7 +57,7 @@ class Player39():
         self.maxdepth = 4
         self.good_terminal = False
 
-        self.utility = [0 for i in xrange(16)]
+        self.utilwts = [0 for i in xrange(10)]
 
     def move(self, board, old_move, currflag):
 
@@ -255,7 +255,7 @@ class Player39():
         best_move = []
 
         if not playable_cells:
-            return self.temp(board, blocks_state, flag)
+            return self.temp(board, blocks_state, flag, old_move)
 
         for move in playable_cells:
             tempblockstate = blocks_state[:]
@@ -285,12 +285,12 @@ class Player39():
             return float('-inf')
 
         if depth > 4 + levelincr:
-            return self.temp(board, blocks_state, flag)
+            return self.temp(board, blocks_state, flag, old_move)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            return self.temp(board, blocks_state, flag)
+            return self.temp(board, blocks_state, flag, old_move)
 
         best_score = float('-inf')
         for move in playable_cells:
@@ -323,12 +323,12 @@ class Player39():
         t_flag = 'o' if flag == 'x' else 'x'
 
         if depth > 4 + levelincr:
-            return self.temp(board, blocks_state, flag)
+            return self.temp(board, blocks_state, flag, old_move)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
 
         if not playable_cells:
-            return self.temp(board, blocks_state, flag)
+            return self.temp(board, blocks_state, flag, old_move)
 
         best_score = float('inf')
 
@@ -353,11 +353,11 @@ class Player39():
 
         return best_score
 
-    def temp(self, board, blocks_state, flag):
-        feature_extractor(board, blocks_state, flag)
+    def temp(self, board, blocks_state, flag, old_move):
+        feature_extractor(board, blocks_state, flag, old_move)
         return 1
 
-    def feature_extractor(self, board, blocks_state, flag):
+    def feature_extractor(self, board, blocks_state, flag, old_move):
         cornerblockswon = sideblockswon = centerblockswon = cornerslost = sideslost = centerblockslost = 0
         totalwon = totallost = 0
 
