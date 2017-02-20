@@ -488,3 +488,9 @@ class Player39():
             diagrightlost.append(countlost)
             count = 0
             countlost = 0
+
+            """"Dont make move which lets opponent chose any move"""
+            r = old_move[0] % 4
+            c = old_move[1] % 4
+            if blocks_state[r * c + 4] == flag or blocks_state[r * c + 4] == counterflag:
+                # do something like return very low value
