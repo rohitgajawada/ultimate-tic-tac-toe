@@ -392,6 +392,8 @@ class Player39():
             elif blocks_state[i] == counterflag:
                 totallost += 1
 
+        entropy = (2 * totalwon + 16 - (totalwon + totallost)) / (2 * totalwon + 2 * totallost + 16 - (totallost + totalwon))
+
         """Victory distance"""
         count = 0
         inrow = incolumn = indiagonalleft = indiagonalright = 0
