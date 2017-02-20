@@ -89,3 +89,7 @@ Variables
 * entropy : O is majority (for offense) or X is majority (for defence i.e to mess up opponents offense) but not tending to equal
 
 * Lets make our array as 1d for simplification
+
+Imp notes:
+Change ply and check timings (signal)
+timing out in some cases
