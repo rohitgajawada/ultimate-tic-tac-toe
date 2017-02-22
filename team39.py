@@ -45,7 +45,7 @@ block_map = [
 class Player39():
     """AI Bot"""
 
-    def __init__(self,variable1,variable2,variable3):
+    def __init__(self):
         "Constructor"
         self.board = []
         self.valid_moves = []
@@ -56,9 +56,6 @@ class Player39():
         self.moves = 0
         self.maxdepth = 4
         self.good_terminal = False
-        self.variable1 = int(variable1)
-        self.variable2 = int(variable2)
-        self.variable3 = int(variable3)
         self.utilwts = [10, -10, 200, 80, 200, 80, 200, 80, -70, 100, 40, 100, 40, 100, 40, 4, -4, 20]
         """                 """
     def move(self, board, old_move, currflag):

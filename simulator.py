@@ -321,11 +321,11 @@ if __name__ == '__main__':
 		obj1 = Manual_Player()
 		obj2 = Manual_Player()
 	elif option == '4':
-		variable1 = sys.argv[2]
-		variable2 = sys.argv[3]
-		variable3= sys.argv[4]
+		# variable1 = sys.argv[2]
+		# variable2 = sys.argv[3]
+		# variable3= sys.argv[4]
 		obj1 = Random_Player()
-		obj2 = Player39(variable1,variable2,variable3)
+		obj2 = Player39()
 	else:
 		print 'Invalid option'
 		sys.exit(1)
