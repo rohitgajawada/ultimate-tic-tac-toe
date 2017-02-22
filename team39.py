@@ -61,6 +61,7 @@ class Player39():
     def move(self, board, old_move, currflag):
 
         total_start = time.time()
+        total_time = time.time()
         self.board = copy.deepcopy(board.board_status)
         tempblockstatus = copy.deepcopy(board.block_status)
 
@@ -71,7 +72,7 @@ class Player39():
         self.flag = currflag
         self.moves += 1
 
-        bestmove = self.alphabeta(self.board, self.blocks_state, old_move, self.flag, self.levelincr)
+        bestmove = self.alphabeta(self.board, self.blocks_state, old_move, self.flag, self.levelincr, total_time)
 
         total_end = time.time()
         # print "total move time: ", total_end - total_start
@@ -393,8 +394,8 @@ class Player39():
             if celldiagrightwon[0] > 0:
                 celldiagrightlost[0] = 0"""
 
-            x1 = self.variable1 * sideblockswon + self.variable2 * cornerblockswon + self.variable3 * centerblockswon
-            x2 = self.variable1 * sideslost + self.variable2 * cornerslost + self.variable3 * centerblockslost
+            x1 = 5 * sideblockswon + 10 * cornerblockswon + 12 * centerblockswon
+            x2 = 5 * sideslost + 10 * cornerslost + 12 * centerblockslost
 
             x3 = 1 * (rowwon[0] + rowwon[1] + rowwon[2] + rowwon[3])
             x4 = -1 * (rowlost[0] + rowlost[1] + rowlost[2] + rowlost[3])
@@ -416,8 +417,8 @@ class Player39():
             x14 = 1 * (celldiagleftwon[0] + celldiagrightwon[0])
             x15 = -1 * (celldiagleftlost[0] + celldiagrightlost[0])
 
-            x16 = self.variable1 * cellside + self.variable2 * cellcorner + self.variable3 * cellcenter
-            x17 = self.variable1 * oppside + self.variable2 * oppcorner + self.variable3 * oppcenter
+            x16 = 5 * cellside + 10 * cellcorner + 12 * cellcenter
+            x17 = 5 * oppside + 10 * oppcorner + 12 * oppcenter
 
             x18 = entropyc
 
@@ -596,7 +597,7 @@ class Player39():
         block_stat[block_num] = 'D'
         return block_stat
 
-    def alphabeta(self, board, blocks_state, old_move, flag, levelincr):
+    def alphabeta(self, board, blocks_state, old_move, flag, levelincr, total_time):
 
         if old_move == (-1, -1):
             return (4, 4)
@@ -615,7 +616,8 @@ class Player39():
 
             board[move[0]][move[1]] = flag
             tempblockstate = self.evolvedblockstate(board, move, blocks_state, flag)
-            score = self.alpha_max(board, tempblockstate, move, flag, 0, alpha, beta, levelincr)
+            if time.time() - total_time <= 12:
+                score = self.alpha_max(board, tempblockstate, move, flag, 0, alpha, beta, levelincr)
 
             board[move[0]][move[1]] = '-'
 
