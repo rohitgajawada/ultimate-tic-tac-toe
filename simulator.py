@@ -299,12 +299,13 @@ def gameplay(obj1, obj2):				#game simulator
 
 if __name__ == '__main__':
 
-	if len(sys.argv) != 2:
+	if len(sys.argv) < 2:
 		print 'Usage: python simulator.py <option>'
 		print '<option> can be 1 => Random player vs. Random player'
 		print '                2 => Human vs. Random Player'
 		print '                3 => Human vs. Human'
 		sys.exit(1)
+
 
 	obj1 = ''
 	obj2 = ''
@@ -320,8 +321,11 @@ if __name__ == '__main__':
 		obj1 = Manual_Player()
 		obj2 = Manual_Player()
 	elif option == '4':
+		variable1 = sys.argv[2]
+		variable2 = sys.argv[3]
+		variable3= sys.argv[4]
 		obj1 = Random_Player()
-		obj2 = Player39()
+		obj2 = Player39(variable1,variable2,variable3)
 	else:
 		print 'Invalid option'
 		sys.exit(1)

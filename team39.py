@@ -45,7 +45,7 @@ block_map = [
 class Player39():
     """AI Bot"""
 
-    def __init__(self):
+    def __init__(self,variable1,variable2,variable3):
         "Constructor"
         self.board = []
         self.valid_moves = []
@@ -56,9 +56,11 @@ class Player39():
         self.moves = 0
         self.maxdepth = 4
         self.good_terminal = False
-
-        self.utilwts = [10, 10, 200, 80, 200, 80, 200, 80, -70, 100, 40, 100, 40, 100, 40, 4, 4, 20]
-
+        self.variable1 = int(variable1)
+        self.variable2 = int(variable2)
+        self.variable3 = int(variable3)
+        self.utilwts = [10, -10, 200, 80, 200, 80, 200, 80, -70, 100, 40, 100, 40, 100, 40, 4, -4, 20]
+        """                 """
     def move(self, board, old_move, currflag):
 
         total_start = time.time()
@@ -298,7 +300,7 @@ class Player39():
 
             """My variables for heuristic"""
             #for blocks
-            if rowlost[0] > 0:
+            """        if rowlost[0] > 0:
                 rowwon[0] = 0
             if rowlost[1] > 0:
                 rowwon[1] = 0
@@ -392,11 +394,10 @@ class Player39():
             if celldiagleftwon[0] > 0:
                 celldiagleftlost[0] = 0
             if celldiagrightwon[0] > 0:
-                celldiagrightlost[0] = 0
+                celldiagrightlost[0] = 0"""
 
-
-            x1 = 5 * sideblockswon + 10 * cornerblockswon + 12 * centerblockswon
-            x2 = 5 * sideslost + 10 * cornerslost + 12 * centerblockslost
+            x1 = self.variable1 * sideblockswon + self.variable2 * cornerblockswon + self.variable3 * centerblockswon
+            x2 = self.variable1 * sideslost + self.variable2 * cornerslost + self.variable3 * centerblockslost
 
             x3 = 1 * (rowwon[0] + rowwon[1] + rowwon[2] + rowwon[3])
             x4 = -1 * (rowlost[0] + rowlost[1] + rowlost[2] + rowlost[3])
@@ -418,8 +419,8 @@ class Player39():
             x14 = 1 * (celldiagleftwon[0] + celldiagrightwon[0])
             x15 = -1 * (celldiagleftlost[0] + celldiagrightlost[0])
 
-            x16 = 5 * cellside + 10 * cellcorner + 12 * cellcenter
-            x17 = 5 * oppside + 10 * oppcorner + 12 * oppcenter
+            x16 = self.variable1 * cellside + self.variable2 * cellcorner + self.variable3 * cellcenter
+            x17 = self.variable1 * oppside + self.variable2 * oppcorner + self.variable3 * oppcenter
 
             x18 = entropyc
 
