@@ -42,28 +42,25 @@ class Board:
 
 	def print_board(self):
 		# for printing the state of the board
-		# print '==============Board State=============='
+		print '==============Board State=============='
 		for i in range(16):
 			if i%4 == 0:
-				i
-				# print
+				print
 			for j in range(16):
 				if j%4 == 0:
-					self.board_status[i][j]
-					# print "",
-				# print self.board_status[i][j],
-			# print
-		# print
+					print "",
+				print self.board_status[i][j],
+			print
+		print
 
-		# print '==============Block State=============='
+		print '==============Block State=============='
 		for i in range(4):
 			for j in range(4):
-				self.block_status[i][j]
-				# print self.block_status[i][j],
-			# print
-		# print '======================================='
-		# print
-		# print
+				print self.block_status[i][j],
+			print
+		print '======================================='
+		print
+		print
 
 
 	def find_valid_move_cells(self, old_move):
@@ -217,7 +214,7 @@ def gameplay(obj1, obj2):				#game simulator
 			break
 
 		status = game_board.find_terminal_state()		#find if the game has ended and if yes, find the winner
-		# print status
+		print status
 		if status[1] == 'WON':							#if the game has ended after a player1 move, player 1 would win
 			pts1 = 16
 			WINNER = 'P1'
@@ -244,7 +241,6 @@ def gameplay(obj1, obj2):				#game simulator
 			pts1 = 16
 			break
 		except Exception as e:
-			print "error", e
 			WINNER = 'P1'
 			MESSAGE = 'INVALID MOVE'
 			pts1 = 16
@@ -256,15 +252,13 @@ def gameplay(obj1, obj2):				#game simulator
 			pts1 = 16
 			break
 		if game_board.update(old_move, p2_move, fl2) == 'UNSUCCESSFUL':
-			# print old_move, "old move"
-			# print p2_move, "new move"
 			WINNER = 'P1'
 			MESSAGE = 'INVALID MOVE'
 			pts1 = 16
 			break
 
 		status = game_board.find_terminal_state()	#find if the game has ended and if yes, find the winner
-		# print status
+		print status
 		if status[1] == 'WON':						#if the game has ended after a player move, player 2 would win
 			pts2 = 16
 			WINNER = 'P2'
@@ -303,13 +297,12 @@ def gameplay(obj1, obj2):				#game simulator
 
 if __name__ == '__main__':
 
-	if len(sys.argv) < 2:
+	if len(sys.argv) != 2:
 		print 'Usage: python simulator.py <option>'
 		print '<option> can be 1 => Random player vs. Random player'
 		print '                2 => Human vs. Random Player'
 		print '                3 => Human vs. Human'
 		sys.exit(1)
-
 
 	obj1 = ''
 	obj2 = ''
