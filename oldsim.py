@@ -318,7 +318,7 @@ if __name__ == '__main__':
 		obj1 = Manual_Player()
 		obj2 = Manual_Player()
 	elif option == '4':
-		obj1 = Random_Player()
+		obj1 = Player39()
 		obj2 = Player39a()
 	else:
 		print 'Invalid option'
