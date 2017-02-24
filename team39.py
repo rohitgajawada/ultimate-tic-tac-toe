@@ -427,7 +427,7 @@ class Player39():
     def temp(self, board, blocks_state, flag, old_move):
         varlist = self.feature_extractor(board, blocks_state, flag, old_move)
         eval = 0
-        for i in xrange(15):
+        for i in xrange(18):
             eval += self.utilwts[i] * varlist[i]
 
         return eval
@@ -639,7 +639,7 @@ class Player39():
         if self.is_bad_terminal(blocks_state) is True:
             return float('-inf')
 
-        if depth > 3 + levelincr:
+        if depth > self.maxdepth + levelincr:
             return self.temp(board, blocks_state, flag, old_move)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)
@@ -677,7 +677,7 @@ class Player39():
 
         t_flag = 'o' if flag == 'x' else 'x'
 
-        if depth > 3 + levelincr:
+        if depth > self.maxdepth + levelincr:
             return self.temp(board, blocks_state, flag, old_move)
 
         playable_cells = self.cells_allowed(board, self.blocks_allowed(old_move, blocks_state), blocks_state)

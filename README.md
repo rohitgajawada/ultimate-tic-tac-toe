@@ -8,6 +8,20 @@ Notes:
 Attacking and defending
 Branch factor is 16
 
+'numCornerPieces': 0.811020200948285,
+'numOtherCenterPieces': 0.0809559760347321,
+'relativeWins': 1.0153244869861855,
+'numAdjacentWonGrids': 0.969296961952278, // 'numOtherAdjacentWonGrids': -0.6814807021505367, // 'advantageOfNextGrid': 0.5395673542865317,
+'numOtherCornerPieces': 0.7058793287408335,
+'gridsDifference': 1.6507776641028122,
+'numAdjacentPieces': 0.7130969880480094, //
+'numWins': 0.5323490704404454,
+'numCenterPieces': 0.021778991208712777,
+'otherWins': -0.48297541654574627,
+'numOtherAdjacentPieces': -1.2963960051123138}; //
+
+#add degrees of freedom maybe
+
 #defence
 in 3x3
 center stops 4
