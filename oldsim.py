@@ -4,7 +4,7 @@ import signal
 import time
 import copy
 from team39 import Player39
-from edit39a import Player39a
+from swag39 import Player39a
 
 class TimedOutExc(Exception):
 	pass
