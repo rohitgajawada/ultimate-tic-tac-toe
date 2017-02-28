@@ -56,8 +56,8 @@ class Player39():
         self.moves = 0
         self.maxdepth = 4
         self.good_terminal = False
-        self.utilwts = [10, -10, 200, 80, 200, 80, 200, 80, -70, 100, 40, 100, 40, 100, 40, 4, -4, 20]
-        """                 """
+        self.utilwts = [10.2, 5.4, -4.8, 0.4, -0.03, 3, -4, 2.2, -1, 4.2, -2, 4.2, -2, 4.2, -2, -15, 0.1]
+
     def move(self, board, old_move, currflag):
 
         total_start = time.time()
@@ -107,15 +107,10 @@ class Player39():
                 if blocks_state[i] == flag:
                     centerblockswon += 1
                 elif blocks_state[i] == counterflag:
-                    cornerslost += 1
+                    centerblockslost += 1
 
-            """Entropy"""
-            if blocks_state[i] == flag:
-                totalwon += 1
-            elif blocks_state[i] == counterflag:
-                totallost += 1
-
-        entropy = (2 * totalwon + 16 - (totalwon + totallost)) / (2 * totalwon + 2 * totallost + 16 - (totallost + totalwon))
+        totalwon = cornerblockswon + sideblockswon + centerblockswon
+        totallost = cornerslost + sideslost + centerblockslost
 
         """Victory distance"""
         rowwon = rowlost = columnwon = columnlost = diagleftwon = diagleftlost = diagrightwon = diagrightlost = []
@@ -218,216 +213,48 @@ class Player39():
             if blocks_state[r * c + 4] == flag or blocks_state[r * c + 4] == counterflag:
                 freemove = 1
 
-            """cell statistics"""
-            blocknow = r * c + 4
-            rowcorner = int(blocknow / 4) * 4
-            columncorner = blocknow % 4 * 4
-
-            cellwin = celllost = 0
-
-            cellcorner = cellside = cellcenter = oppcorner = oppside = oppcenter = 0
+            freedom = 0
+            for i in xrange(4):
+                if rowlost[i] == 0:
+                    freedom += 1
 
             for i in xrange(4):
-                for j in xrange(4):
-                    if board[rowcorner + i][columncorner + j] == flag:
-                        cellwin += 1
-                        if (i == 0 and j == 0) or (i == 0 and j == 3) or (i == 3 and j == 0) or (i == 3 or j == 3):
-                            cellcorner += 1
-                        elif (i == 1 and j == 1) or (i == 1 and j == 2) or (i == 2 and j == 1) or (i == 2 and j == 2):
-                            cellcenter += 1
-                        else:
-                            cellside += 1
+                if columnlost[i] == 0:
+                    freedom += 1
 
-                    elif board[rowcorner + i][columncorner + j] == counterflag:
-                        celllost += 1
-                        if (i == 0 and j == 0) or (i == 0 and j == 3) or (i == 3 and j == 0) or (i == 3 or j == 3):
-                            oppcorner += 1
-                        elif (i == 1 and j == 1) or (i == 1 and j == 2) or (i == 2 and j == 1) or (i == 2 and j == 2):
-                            oppcenter += 1
-                        else:
-                            oppside += 1
+            if diagleftwon[0] == 0:
+                freedom += 1
 
-            """entropy of block"""
-            entropycell1 = (2 * cellwin + 16 - (cellwin + celllost)) / (2 * cellwin + 2 * celllost + 16 - (cellwin + celllost))
-            entropycell2 = (2 * celllost + 16 - (cellwin + celllost)) / (2 * cellwin + 2 * celllost + 16 - (cellwin + celllost))
+            if diagrightwon[0] == 0:
+                freedom += 1
 
-            entropyc = 1 - min(entropycell1, entropycell2)
+            x1 = totalwon - totallost
+            x2 = totalwon
+            x3 = totallost
 
-            cellrowwin = cellrowlost = cellcolumnwin = cellcolumnlost = celldiagleftwon = celldiagleftlost = celldiagrightwon = celldiagrightlost = []
-            count = countlost = 0
+            x4 = sideblockswon
+            x5 = sideslost
+            x6 = centerblockswon
+            x7 = centerblockslost
+            x8 = cornerblockswon
+            x9 = cornerslost
 
-            for i in xrange(4):
-                if board[rowcorner + i][columncorner] == flag:
-                    count += 1
-                if board[rowcorner + i][columncorner] == counterflag:
-                    countlost += 1
-                cellrowwin.append(count)
-                cellrowlost.append(countlost)
-                count = 0
-                countlost = 0
+            x10 = (rowwon[0] + rowwon[1] + rowwon[2] + rowwon[3])
+            x11 = (rowlost[0] + rowlost[1] + rowlost[2] + rowlost[3])
+            x12 = (columnwon[0] + columnwon[1] + columnwon[2] + columnwon[3])
+            x13 = (columnlost[0] + columnlost[1] + columnlost[2] + columnlost[3])
+            x14 = (diagleftwon[0] + diagrightwon[0])
+            x15 = (diagleftlost[0] + diagrightlost[0])
 
-            for j in xrange(4):
-                if board[rowcorner][columncorner + j] == flag:
-                    count += 1
-                if board[rowcorner][columncorner + j] == counterflag:
-                    countlost += 1
-                cellcolumnwin.append(count)
-                cellcolumnlost.append(countlost)
-                count = 0
-                countlost = 0
+            x16 = freemove
+            x17 = freedom
 
-            for i in xrange(4):
-                if board[rowcorner + i][columncorner + i] == flag:
-                    count += 1
-                if board[rowcorner + i][columncorner + i] == counterflag:
-                    countlost += 1
-                celldiagleftwon.append(count)
-                celldiagleftlost.append(countlost)
-                count = 0
-                countlost = 0
-
-            for i in xrange(4):
-                if board[rowcorner - i][columncorner + i] == flag:
-                    count += 1
-                if board[rowcorner - i][columncorner + i] == counterflag:
-                    countlost += 1
-                celldiagrightwon.append(count)
-                celldiagrightlost.append(countlost)
-                count = 0
-                countlost = 0
-
-            """My variables for heuristic"""
-            #for blocks
-            """        if rowlost[0] > 0:
-                rowwon[0] = 0
-            if rowlost[1] > 0:
-                rowwon[1] = 0
-            if rowlost[2] > 0:
-                rowwon[2] = 0
-            if rowlost[3] > 0:
-                rowwon[3] = 0
-
-            if columnlost[0] > 0:
-                columnwon[0] = 0
-            if columnlost[1] > 0:
-                columnwon[1] = 0
-            if columnlost[2] > 0:
-                columnwon[2] = 0
-            if columnlost[3] > 0:
-                columnwon[3] = 0
-
-            if diagleftlost[0] > 0:
-                diagleftwon[0] = 0
-            if diagrightlost[0] > 0:
-                diagrightwon[0] = 0
-
-            #for cells
-            if cellrowlost[0] > 0:
-                cellrowwin[0] = 0
-            if cellrowlost[1] > 0:
-                cellrowwin[1] = 0
-            if cellrowlost[2] > 0:
-                cellrowwin[2] = 0
-            if cellrowlost[3] > 0:
-                cellrowwin[3] = 0
-
-            if cellcolumnlost[0] > 0:
-                cellcolumnwin[0] = 0
-            if cellcolumnlost[1] > 0:
-                cellcolumnwin[1] = 0
-            if cellcolumnlost[2] > 0:
-                cellcolumnwin[2] = 0
-            if cellcolumnlost[3] > 0:
-                cellcolumnwin[3] = 0
-
-            if celldiagleftlost[0] > 0:
-                celldiagleftwon[0] = 0
-            if celldiagrightlost[0] > 0:
-                celldiagrightwon[0] = 0
-
-            #####################
-            #for blocks
-            if rowwon[0] > 0:
-                rowlost[0] = 0
-            if rowwon[1] > 0:
-                rowlost[1] = 0
-            if rowwon[2] > 0:
-                rowlost[2] = 0
-            if rowwon[3] > 0:
-                rowlost[3] = 0
-
-            if columnwon[0] > 0:
-                columnlost[0] = 0
-            if columnwon[1] > 0:
-                columnlost[1] = 0
-            if columnwon[2] > 0:
-                columnlost[2] = 0
-            if columnwon[3] > 0:
-                columnlost[3] = 0
-
-            if diagleftwon[0] > 0:
-                diagleftlost[0] = 0
-            if diagrightwon[0] > 0:
-                diagrightlost[0] = 0
-
-            #for cells
-            if cellrowwin[0] > 0:
-                cellrowlost[0] = 0
-            if cellrowwin[1] > 0:
-                cellrowlost[1] = 0
-            if cellrowwin[2] > 0:
-                cellrowlost[2] = 0
-            if cellrowwin[3] > 0:
-                cellrowlost[3] = 0
-
-            if cellcolumnwin[0] > 0:
-                cellcolumnlost[0] = 0
-            if cellcolumnwin[1] > 0:
-                cellcolumnlost[1] = 0
-            if cellcolumnwin[2] > 0:
-                cellcolumnlost[2] = 0
-            if cellcolumnwin[3] > 0:
-                cellcolumnlost[3] = 0
-
-            if celldiagleftwon[0] > 0:
-                celldiagleftlost[0] = 0
-            if celldiagrightwon[0] > 0:
-                celldiagrightlost[0] = 0"""
-
-            x1 = 5 * sideblockswon + 10 * cornerblockswon + 12 * centerblockswon
-            x2 = 5 * sideslost + 10 * cornerslost + 12 * centerblockslost
-
-            x3 = 1 * (rowwon[0] + rowwon[1] + rowwon[2] + rowwon[3])
-            x4 = -1 * (rowlost[0] + rowlost[1] + rowlost[2] + rowlost[3])
-
-            x5 = 1 * (columnwon[0] + columnwon[1] + columnwon[2] + columnwon[3])
-            x6 = -1 * (columnlost[0] + columnlost[1] + columnlost[2] + columnlost[3])
-
-            x7 = 1 * (diagleftwon[0] + diagrightwon[0])
-            x8 = -1 * (diagleftlost[0] + diagrightlost[0])
-
-            x9 = freemove
-
-            x10 = 1 * (cellrowwin[0] + cellrowwin[1] + cellrowwin[2] + cellrowwin[3])
-            x11 = -1 * (cellrowlost[0] + cellrowlost[1] + cellrowlost[2] + cellrowlost[3])
-
-            x12 = 1 * (cellcolumnwin[0] + cellcolumnwin[1] + cellcolumnwin[2] + cellcolumnwin[3])
-            x13 = -1 * (cellcolumnlost[0] + cellcolumnlost[1] + cellcolumnlost[2] + cellcolumnlost[3])
-
-            x14 = 1 * (celldiagleftwon[0] + celldiagrightwon[0])
-            x15 = -1 * (celldiagleftlost[0] + celldiagrightlost[0])
-
-            x16 = 5 * cellside + 10 * cellcorner + 12 * cellcenter
-            x17 = 5 * oppside + 10 * oppcorner + 12 * oppcenter
-
-            x18 = entropyc
-
-            return [x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18]
+            return [x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17]
 
     def temp(self, board, blocks_state, flag, old_move):
         varlist = self.feature_extractor(board, blocks_state, flag, old_move)
         eval = 0
-        for i in xrange(18):
+        for i in xrange(17):
             eval += self.utilwts[i] * varlist[i]
 
         return eval
@@ -616,7 +443,7 @@ class Player39():
 
             board[move[0]][move[1]] = flag
             tempblockstate = self.evolvedblockstate(board, move, blocks_state, flag)
-            if time.time() - total_time <= 12:
+            if time.time() - total_time <= 12.5:
                 score = self.alpha_max(board, tempblockstate, move, flag, 0, alpha, beta, levelincr)
 
             board[move[0]][move[1]] = '-'
