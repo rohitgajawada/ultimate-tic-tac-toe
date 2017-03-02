@@ -1,0 +1,5 @@
+- Add weights to winning in individual blocks
+- Experiment with move ordering
+- If time is left traverse again
+- Test heuristic with good boards
+- Scale feature values to a uniform value
