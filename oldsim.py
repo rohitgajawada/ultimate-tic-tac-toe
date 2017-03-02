@@ -3,9 +3,8 @@ import random
 import signal
 import time
 import copy
-from edit39a import Player39
 from swag39 import Player39a
-from Player import Player
+from Player43 import Player
 
 class TimedOutExc(Exception):
 	pass
