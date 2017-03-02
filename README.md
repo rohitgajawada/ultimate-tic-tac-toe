@@ -21,6 +21,8 @@ Branch factor is 16
 'numOtherAdjacentPieces': -1.2963960051123138}; //
 
 #add degrees of freedom maybe
+#add draw guarantee
+#consider time overload on free moves
 
 #defence
 in 3x3

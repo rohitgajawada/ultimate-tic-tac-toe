@@ -3,8 +3,9 @@ import random
 import signal
 import time
 import copy
-from team39 import Player39
+from edit39a import Player39
 from swag39 import Player39a
+from Player import Player
 
 class TimedOutExc(Exception):
 	pass
@@ -318,6 +319,9 @@ if __name__ == '__main__':
 		obj1 = Manual_Player()
 		obj2 = Manual_Player()
 	elif option == '4':
+		obj1 = Player()
+		obj2 = Player39a()
+	elif option == '5':
 		obj1 = Random_Player()
 		obj2 = Player39a()
 	else:
