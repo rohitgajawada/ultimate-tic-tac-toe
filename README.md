@@ -1,3 +1,3 @@
 Ultimate Tic Tac Toe Project:
 
-Created by Anubhab Sen & Rohit Gajawada
+Created by Rohit Gajawada and Anubhab Sen
